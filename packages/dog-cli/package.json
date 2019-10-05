@@ -10,5 +10,8 @@
   "scripts": {
     "develop": "tsc -w",
     "test": "echo \"Error: run tests from root\" && exit 1"
+  },
+  "dependencies": {
+    "dog-sdk": "^0.0.1"
   }
 }
