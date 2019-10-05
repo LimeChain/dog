@@ -1,0 +1,14 @@
+{
+  "name": "dog-cli",
+  "version": "0.0.1",
+  "description": "CLI generator decentralised organisations - DOG",
+  "author": "George Spasov <spasov05203@gmail.com>",
+  "homepage": "",
+  "license": "ISC",
+  "main": "dist/index.js",
+  "bin": "dist/cli.js",
+  "scripts": {
+    "develop": "tsc -w",
+    "test": "echo \"Error: run tests from root\" && exit 1"
+  }
+}

@@ -1,0 +1,13 @@
+{
+  "name": "dog-sdk",
+  "version": "0.0.1",
+  "description": "SDK for development of deventralised organisations",
+  "author": "George Spasov <spasov05203@gmail.com>",
+  "homepage": "",
+  "license": "ISC",
+  "main": "dist/index.js",
+  "scripts": {
+    "develop": "tsc -w",
+    "test": "echo \"Error: run tests from root\" && exit 1"
+  }
+}

@@ -1,0 +1,13 @@
+{
+  "name": "root",
+  "npmClient": "yarn",
+  "private": true,
+  "devDependencies": {
+    "lerna": "^3.16.4",
+    "tslint": "^5.20.0",
+    "typescript": "^3.6.3"
+  },
+  "dependencies": {
+    "dog-sdk": "file:packages/dog-sdk"
+  }
+}
