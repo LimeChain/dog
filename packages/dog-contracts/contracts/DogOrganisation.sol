@@ -19,7 +19,7 @@ contract DogOrganisation is Ownable {
     address public dogBank;
     address public dogOrgAdmin;
     
-    uint256 public premintedMGL = 0;
+    uint256 public premintedDOG = 0;
     
     uint256 constant public USD_RESERVE_REMAINDER = 5; // 20%
     
@@ -51,7 +51,7 @@ contract DogOrganisation is Ownable {
     */
     event Invest(address investor, uint256 amount);
     event Withdraw(address investor, uint256 amount);
-    event UnlockOrganisation(address unlocker, uint256 initialAmount, uint256 initialMglSupply);
+    event UnlockOrganisation(address unlocker, uint256 initialAmount, uint256 initialDogSupply);
     event DividendPayed(address payer, uint256 amount);
     event CloseOrganisation(uint256 taxPenalty);
     
@@ -98,13 +98,13 @@ contract DogOrganisation is Ownable {
         require(dogUSD.balanceOf(address(this)) > 0, "invest:: Organisation is not unlocked for investments yet");
         require(dogUSD.allowance(msg.sender, address(this)) >= usdAmount, "invest:: Investor tries to invest with unapproved USD amount");
         
-        uint256 mglTokensToMint = calcRelevantMGLForUSD(usdAmount);
+        uint256 dogTokensToMint = calcDogForUSD(usdAmount);
 
         uint256 reserveUSDAmount = usdAmount.div(USD_RESERVE_REMAINDER);
         dogUSD.transferFrom(msg.sender, address(this), reserveUSDAmount);
         dogUSD.transferFrom(msg.sender, dogBank, usdAmount.sub(reserveUSDAmount));
 
-        dogToken.mint(msg.sender, mglTokensToMint);
+        dogToken.mint(msg.sender, dogTokensToMint);
         
         emit Invest(msg.sender, usdAmount);
     }
@@ -112,44 +112,44 @@ contract DogOrganisation is Ownable {
     /*
     * @dev function revokeInvestment Allows investors to sell their dog Tokens
     *
-    * @param _amountMGL uint256 The amount of dog Tokens investor wants to sell
+    * @param _amountDOG uint256 The amount of dog Tokens investor wants to sell
     */
-    function sell(uint256 _amountMGL) public {
-        require(dogToken.allowance(msg.sender, address(this)) >= _amountMGL, "revokeInvestment:: Investor wants to withdraw MGL without allowance");
+    function sell(uint256 _amountDOG) public {
+        require(dogToken.allowance(msg.sender, address(this)) >= _amountDOG, "revokeInvestment:: Investor wants to withdraw Dog without allowance");
     
-        uint256 usdToReturn = calcUSDToReturn(_amountMGL);
+        uint256 usdToReturn = calcUSDToReturn(_amountDOG);
     
         dogUSD.transfer(msg.sender, usdToReturn);
-        dogToken.burnFrom(msg.sender, _amountMGL);
+        dogToken.burnFrom(msg.sender, _amountDOG);
     
         emit Withdraw(msg.sender, usdToReturn);
     }
     
-    function calcUSDToReturn(uint256 _amountMGL) public view returns(uint256){
+    function calcUSDForDog(uint256 _amountDOG) public view returns(uint256){
         if (dogOrgState == State.LIVE) {
-            return bondingMath.calcTokenSell(dogToken.totalSupply(), dogUSD.balanceOf(address(this)), _amountMGL);
+            return bondingMath.calcTokenSell(dogToken.totalSupply(), dogUSD.balanceOf(address(this)), _amountDOG);
         } else if(dogOrgState == State.CLOSED) {
-            return dogUSD.balanceOf(address(this)).mul(_amountMGL).div(dogToken.totalSupply());
+            return dogUSD.balanceOf(address(this)).mul(_amountDOG).div(dogToken.totalSupply());
         }
     }
     
     /*
-    * @dev function calcRelevantMGLForUSD Uses bonding mathematics to calculate dog Tokens purchase
+    * @dev function calcDogForUSD Uses bonding mathematics to calculate dog Tokens purchase
     *
     * @param usdAmount uint256 USD used to buy dog Tokens
     */
-    function calcRelevantMGLForUSD(uint256 usdAmount) public view returns(uint256) {
-        uint256 tokensAfterPurchase = bondingMath.calcPurchase(dogToken.totalSupply(), premintedMGL, usdAmount, buySlope);
+    function calcDogForUSD(uint256 usdAmount) public view returns(uint256) {
+        uint256 tokensAfterPurchase = bondingMath.calcPurchase(dogToken.totalSupply(), premintedDOG, usdAmount, buySlope);
         return tokensAfterPurchase;
     }
     
     /*
-    * @dev function calcRelevantUSDForMGL Uses bonding mathematics to calculate dog Tokens sell
+    * @dev function calcUSDToReturn Uses bonding mathematics to calculate dog Tokens sell
     *
-    * @param coTokenAmount uint256 dog tokens to sell
+    * @param dogTokenAmount uint256 dog tokens to sell
     */
-    function calcRelevantUSDForMGL(uint256 coTokenAmount) public view returns(uint256) {
-        return bondingMath.calcTokenSell(dogToken.totalSupply(), dogUSD.balanceOf(address(this)), coTokenAmount);
+    function calcUSDToReturn(uint256 dogTokenAmount) public view returns(uint256) {
+        return bondingMath.calcTokenSell(dogToken.totalSupply(), dogUSD.balanceOf(address(this)), dogTokenAmount);
     }
     
     /*
@@ -175,9 +175,9 @@ contract DogOrganisation is Ownable {
     * @dev function unlockOrganisation initiate Continuous organisation
     *
     * @param organiserUSDContribution USD amount
-    * @param organiserMGLReward initial dog Tokens supply
+    * @param organiserDOGReward initial dog Tokens supply
     */
-    function unlockOrganisation(uint256 organiserUSDContribution, uint256 organiserMGLReward) public onlyOwner {
+    function unlockOrganisation(uint256 organiserUSDContribution, uint256 organiserDOGReward) public onlyOwner {
         require(dogOrgState == State.LOCKED);
         require(dogUSD.balanceOf(address(this)) == 0, "unlockOrganisation:: Organization is already unlocked");
         require(dogUSD.allowance(msg.sender, address(this)) >= organiserUSDContribution, "unlockOrganisation:: Unlocker tries to unlock with unapproved amount");
@@ -185,13 +185,13 @@ contract DogOrganisation is Ownable {
         dogUSD.transferFrom(msg.sender, address(this), organiserUSDContribution.div(USD_RESERVE_REMAINDER));
         dogUSD.transferFrom(msg.sender, dogBank, organiserUSDContribution.sub(organiserUSDContribution.div(USD_RESERVE_REMAINDER)));
 
-        premintedMGL = organiserMGLReward;
+        premintedDOG = organiserDOGReward;
         
-        dogToken.mint(msg.sender, organiserMGLReward);
+        dogToken.mint(msg.sender, organiserDOGReward);
     
         dogOrgState = State.LIVE;
         
-        emit UnlockOrganisation(msg.sender, organiserUSDContribution, organiserMGLReward);
+        emit UnlockOrganisation(msg.sender, organiserUSDContribution, organiserDOGReward);
     }
     
     /*
@@ -213,7 +213,7 @@ contract DogOrganisation is Ownable {
     * @dev function calcCloseTaxPenalty Returns closing tax in USD
     */
     function calcCloseTaxPenalty() public view returns(uint256) {
-        return bondingMath.calcExitFee(dogToken.totalSupply(), premintedMGL, dogUSD.balanceOf(address(this)));
+        return bondingMath.calcExitFee(dogToken.totalSupply(), premintedDOG, dogUSD.balanceOf(address(this)));
     }
     
 }

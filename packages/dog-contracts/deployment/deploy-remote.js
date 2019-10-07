@@ -9,7 +9,8 @@ const BondingCurveCalculations = require('./../build/BondingCurveCalculations.js
 const deploy = async (network, secret, etherscanApiKey) => {
 
 	const deployer = new etherlime.InfuraPrivateKeyDeployer(secret, network, "40c2813049e44ec79cb4d7e0d18de173", {
-		gasLimit: 4020514
+		gasLimit: 4020514,
+		etherscanApiKey
 	})
 
 	const dogUSD = await deployer.deploy(DogToken, {}, "Dog Token", "DUSD", 18);
@@ -21,7 +22,7 @@ const deploy = async (network, secret, etherscanApiKey) => {
 	const bondingMathContractDeployed = await deployer.deploy(BondingMath, {}, bondingCurveCalculator.contractAddress);
 
 	// Deploy Organization
-	const dog = await deployer.deploy(DogOrganisation, {},
+	const dog = await deployer.deployAndVerify(DogOrganisation, {},
 		bondingMathContractDeployed.contractAddress,
 		1,
 		dogUSD.contractAddress,
