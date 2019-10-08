@@ -2,7 +2,7 @@ const etherlime = require('etherlime-lib');
 
 const DogToken = require('./../build/DogToken');
 const BondingMath = require('./../build/BondingMathematics');
-const DogOrganisation = require('./../build/DogOrganisation');
+const BasicDogOrganisation = require('./../build/BasicDogOrganisation');
 const BondingCurveCalculations = require('./../build/BondingCurveCalculations.json');
 
 
@@ -14,7 +14,7 @@ const deploy = async (network, secret, etherscanApiKey) => {
 	})
 
 	const dogUSD = await deployer.deploy(DogToken, {}, "Dog Token", "DUSD", 18);
-	const mintTx = await dogUSD.mint(deployer.signer.address, "100000000000000000000");
+	const mintTx = await dogUSD.mint(deployer.signer.address, "10000000000000000000000");
 	await dogUSD.verboseWaitForTransaction(mintTx, "Minting tokens")
 
 	const bondingCurveCalculator = await deployer.deploy(BondingCurveCalculations, {});
@@ -22,7 +22,7 @@ const deploy = async (network, secret, etherscanApiKey) => {
 	const bondingMathContractDeployed = await deployer.deploy(BondingMath, {}, bondingCurveCalculator.contractAddress);
 
 	// Deploy Organization
-	const dog = await deployer.deployAndVerify(DogOrganisation, {},
+	const dog = await deployer.deployAndVerify(BasicDogOrganisation, {},
 		bondingMathContractDeployed.contractAddress,
 		1,
 		dogUSD.contractAddress,

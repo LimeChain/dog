@@ -5,7 +5,13 @@
     ],
     "jsRules": {},
     "rules": {
-        "no-console": false
+        "no-console": false,
+        "indent": [
+            true,
+            "tabs",
+            2
+        ],
+        "variable-name": false
     },
     "rulesDirectory": []
 }

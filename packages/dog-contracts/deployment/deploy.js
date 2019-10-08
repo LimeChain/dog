@@ -2,7 +2,7 @@ const etherlime = require('etherlime-lib');
 
 const DogToken = require('./../build/DogToken');
 const BondingMath = require('./../build/BondingMathematics');
-const DogOrganisation = require('./../build/DogOrganisation');
+const BasicDogOrganisation = require('./../build/BasicDogOrganisation');
 const BondingCurveCalculations = require('./../build/BondingCurveCalculations.json');
 
 
@@ -19,7 +19,7 @@ const deploy = async (network, secret, etherscanApiKey) => {
 	const bondingMathContractDeployed = await deployer.deploy(BondingMath, {}, bondingCurveCalculator.contractAddress);
 
 	// Deploy Organization
-	const dog = await deployer.deploy(DogOrganisation, {},
+	const dog = await deployer.deploy(BasicDogOrganisation, {},
 		bondingMathContractDeployed.contractAddress,
 		1,
 		dogUSD.contractAddress,

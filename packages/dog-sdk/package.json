@@ -9,5 +9,8 @@
   "scripts": {
     "develop": "tsc -w",
     "test": "echo \"Error: run tests from root\" && exit 1"
+  },
+  "dependencies": {
+    "ethers": "^4.0.37"
   }
 }

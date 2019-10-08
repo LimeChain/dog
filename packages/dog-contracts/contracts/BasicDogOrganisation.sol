@@ -7,7 +7,9 @@ import "./Tokens/dogToken/DogToken.sol";
 import "./Math/BondingMathematics.sol";
 
 
-contract DogOrganisation is Ownable {
+contract BasicDogOrganisation is Ownable {
+
+    uint16 constant public version = 1;
 
     using SafeMath for uint256;
     
