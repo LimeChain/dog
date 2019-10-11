@@ -10,6 +10,7 @@
   "license": "ISC",
   "dependencies": {
     "@openzeppelin/contracts": "^2.3.0",
+    "dog-sdk": "file:../dog-sdk",
     "etherlime-lib": "^1.1.5"
   }
 }

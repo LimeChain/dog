@@ -5,7 +5,15 @@
     ],
     "jsRules": {},
     "rules": {
-        "no-console": false
+        "object-literal-sort-keys": false,
+        "trailing-comma": false,
+        "no-console": false,
+        "indent": [
+            true,
+            "tabs",
+            2
+        ],
+        "variable-name": false
     },
     "rulesDirectory": []
 }

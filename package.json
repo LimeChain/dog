@@ -3,11 +3,23 @@
   "npmClient": "yarn",
   "private": true,
   "devDependencies": {
-    "lerna": "^3.16.4",
+    "@vue/cli-plugin-babel": "^3.11.0",
+    "@vue/cli-plugin-typescript": "^3.11.0",
+    "@vue/cli-service": "^3.11.0",
+    "lerna": "^3.17.0",
+    "less": "^3.0.4",
+    "less-loader": "^5.0.0",
     "tslint": "^5.20.0",
-    "typescript": "^3.6.3"
+    "typescript": "^3.4.3",
+    "vue-template-compiler": "^2.6.10"
   },
   "dependencies": {
-    "dog-sdk": "file:packages/dog-sdk"
-  }
+    "dog-cli": "file:packages/dog-cli",
+    "dog-sdk": "file:packages/dog-sdk",
+    "dog-web": "file:packages/dog-web",
+    "etherlime-project": "file:packages/dog-contracts"
+  },
+  "workspaces": [
+    "packages/*"
+  ]
 }

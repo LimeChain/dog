@@ -12,6 +12,11 @@
     "test": "echo \"Error: run tests from root\" && exit 1"
   },
   "dependencies": {
-    "dog-sdk": "^0.0.1"
+    "chalk": "^2.4.2",
+    "commander": "^3.0.2",
+    "dog-sdk": "file:../dog-sdk",
+    "ethers": "^4.0.37",
+    "inquirer": "^7.0.0",
+    "node-emoji": "^1.10.0"
   }
 }

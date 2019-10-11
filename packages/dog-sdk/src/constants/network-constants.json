@@ -1,0 +1,66 @@
+{
+	"mainnet": {
+		"investmentTokens": [
+			{
+				"name": "DAI",
+				"value": "0x18C05f1c241B57F07104ab00495a3Bbb69C38ece"
+			},
+			{
+				"name": "USDC",
+				"value": "0x18C05f1c241B57F07104ab00495a3Bbb69C38ece"
+			},
+			{
+				"name": "WETH",
+				"value": "0x18C05f1c241B57F07104ab00495a3Bbb69C38ece"
+			}
+		]
+	},
+	"ropsten": {
+		"investmentTokens": [
+			{
+				"name": "DAI",
+				"value": "0x18C05f1c241B57F07104ab00495a3Bbb69C38ece"
+			},
+			{
+				"name": "USDC",
+				"value": "0x18C05f1c241B57F07104ab00495a3Bbb69C38ece"
+			},
+			{
+				"name": "WETH",
+				"value": "0x18C05f1c241B57F07104ab00495a3Bbb69C38ece"
+			}
+		]
+	},
+	"rinkeby": {
+		"investmentTokens": [
+			{
+				"name": "DAI",
+				"value": "0x18C05f1c241B57F07104ab00495a3Bbb69C38ece"
+			},
+			{
+				"name": "USDC",
+				"value": "0x18C05f1c241B57F07104ab00495a3Bbb69C38ece"
+			},
+			{
+				"name": "WETH",
+				"value": "0x18C05f1c241B57F07104ab00495a3Bbb69C38ece"
+			}
+		]
+	},
+	"goerli": {
+		"investmentTokens": [
+			{
+				"name": "DAI",
+				"value": "0x18C05f1c241B57F07104ab00495a3Bbb69C38ece"
+			},
+			{
+				"name": "USDC",
+				"value": "0x18C05f1c241B57F07104ab00495a3Bbb69C38ece"
+			},
+			{
+				"name": "WETH",
+				"value": "0x18C05f1c241B57F07104ab00495a3Bbb69C38ece"
+			}
+		]
+	}
+}

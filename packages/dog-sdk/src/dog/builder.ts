@@ -41,7 +41,7 @@ class DOGBuilder {
 		return this;
 	}
 
-	public async deploy(wallet: ethers.Wallet): Promise<DOG> {
+	public async deploy(wallet: ethers.Wallet): Promise<any> {
 		this.validateInput();
 		const dogFactory = new ethers.ContractFactory(this.contractInterface, this.contractBytecode, wallet);
 		const contract = await dogFactory.deploy(
@@ -52,9 +52,15 @@ class DOGBuilder {
 			this.tokenName,
 			this.tokenSymbol, 18);
 
-		const deployTx = await contract.deployed();
+		return {
+			contractAddress: contract.address,
+			transactionHash: contract.deployTransaction.hash,
+			async wait() {
+				await contract.deployed();
+				return new DOG(contract.address, wallet);
+			},
+		};
 
-		return new DOG(contract.address, wallet);
 	}
 
 	private validateInput() {

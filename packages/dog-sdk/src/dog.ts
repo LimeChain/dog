@@ -4,6 +4,7 @@ import { ethers } from "ethers";
 import dogOrganisationArtifacts from "./interfaces/IDogOrganisation.json";
 
 class DOG {
+	[x: string]: any;
 
 	public static at(address: string, wallet: ethers.Wallet): DOG {
 		return new this(address, wallet);
