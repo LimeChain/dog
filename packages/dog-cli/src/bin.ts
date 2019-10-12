@@ -4,7 +4,7 @@ import * as program from "commander";
 import * as create from "./create";
 
 program
-	.description("This program helps you interact with your DOG organisations");
+	.description("This program helps you create and interact with your DOG organisations");
 
 program
 	.command("create")

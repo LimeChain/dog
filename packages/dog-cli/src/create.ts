@@ -49,9 +49,9 @@ const networkQuestions = () => {
 const privateKeyQuestion = () => {
 	return [
 		{
-			type: "input",
+			type: "password",
 			name: "privateKey",
-			message: "What is the private key of the wallet you want to deploy?",
+			message: "What is the private key of the wallet you want to deploy from?",
 			validate(value: string) {
 				return value.length === 64 || (value.length === 66 && value.startsWith("0x")) || emoji.emojify(`:dog: I do not think this is a valid private key :book:`, onMissing);
 			},
@@ -107,6 +107,30 @@ const dogQuestions = (networkConstants, deployerWallet) => {
 			},
 		},
 		{
+			type: "input",
+			name: "bankAddress",
+			message: "The address that will receive the investment fund",
+			default: deployerWallet.address,
+			validate(value) {
+				try {
+					ethers.utils.getAddress(value);
+				} catch (e) {
+					return emoji.emojify(
+						`:dog: This does not look like a valid address to me. Can you check it again?`, onMissing);
+				}
+				return true;
+			},
+		},
+		{
+			type: "input",
+			name: "buybackReserve",
+			message: "How much do you want to leave in the contract as a reserve?",
+			default: 20,
+			validate(value) {
+				return !isNaN(value) && value > 1 && value < 99;
+			},
+		},
+		{
 			type: "list",
 			name: "buySlope",
 			message: "How granular you want your new token to be?",
@@ -139,21 +163,6 @@ const dogQuestions = (networkConstants, deployerWallet) => {
 			when(answers) {
 				return answers.overrideMathContract;
 			},
-			validate(value) {
-				try {
-					ethers.utils.getAddress(value);
-				} catch (e) {
-					return emoji.emojify(
-						`:dog: This does not look like a valid address to me. Can you check it again?`, onMissing);
-				}
-				return true;
-			},
-		},
-		{
-			type: "input",
-			name: "bankAddress",
-			message: "The address that will receive the investment fund",
-			default: deployerWallet.address,
 			validate(value) {
 				try {
 					ethers.utils.getAddress(value);
@@ -212,7 +221,7 @@ In addition any investor can sell back their tokens for portion of the current o
 		emoji.emojify(
 			`:dog: :newspaper: The contract will have the address of ${chalk.cyan(deploymentInfo.contractAddress)}`));
 	const txHashLink =
-		`https://${networkAnswers.network === "mainnet" ? "" : networkAnswers.network}.etherscan.com/tx/${deploymentInfo.transactionHash}`;
+		`https://${networkAnswers.network === "mainnet" ? "" : networkAnswers.network}.etherscan.io/tx/${deploymentInfo.transactionHash}`;
 
 	console.log(emoji.emojify(`:dog: :eyes: You can view the deployment transaction at ${chalk.cyan(txHashLink)}`));
 
