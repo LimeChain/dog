@@ -1,17 +1,31 @@
 {
   "name": "dog-web",
-  "version": "0.1.0",
-  "private": true,
+  "version": "0.0.1",
   "scripts": {
     "serve": "vue-cli-service serve",
     "build": "vue-cli-service build",
     "lint": "vue-cli-service lint"
   },
   "dependencies": {
+    "bnc-assist": "^0.10.3",
+    "bootstrap": "^4.3.1",
+    "bootstrap-vue": "^2.0.4",
     "core-js": "^2.6.5",
     "dog-sdk": "file:../dog-sdk",
+    "ethers": "^4.0.37",
+    "ti-icons": "^0.1.2",
     "vue": "^2.6.10",
+    "vue-form-wizard": "^0.8.4",
     "vue-router": "^3.0.3",
     "vuex": "^3.0.1"
+  },
+  "devDependencies": {
+    "@vue/cli-plugin-babel": "^3.12.0",
+    "@vue/cli-plugin-typescript": "^3.12.0",
+    "@vue/cli-service": "^3.12.0",
+    "less": "^3.0.4",
+    "less-loader": "^5.0.0",
+    "typescript": "^3.4.3",
+    "vue-template-compiler": "^2.6.10"
   }
 }

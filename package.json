@@ -18,8 +18,5 @@
     "dog-sdk": "file:packages/dog-sdk",
     "dog-web": "file:packages/dog-web",
     "etherlime-project": "file:packages/dog-contracts"
-  },
-  "workspaces": [
-    "packages/*"
-  ]
+  }
 }
