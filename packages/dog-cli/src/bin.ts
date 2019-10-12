@@ -1,4 +1,4 @@
-#!/usr/bin / env node
+#!/usr/bin/env node
 
 import * as program from "commander";
 import * as create from "./create";
@@ -15,4 +15,13 @@ program
 		await create.run();
 	});
 
+program.on("command:*", () => {
+	console.error("Invalid command: %s\nSee --help for a list of available commands.", program.args.join(" "));
+	process.exit(1);
+});
+
 program.parse(process.argv);
+
+if (!process.argv.slice(2).length) {
+	program.outputHelp();
+}

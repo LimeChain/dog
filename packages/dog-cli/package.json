@@ -5,8 +5,10 @@
   "author": "George Spasov <spasov05203@gmail.com>",
   "homepage": "",
   "license": "ISC",
-  "main": "dist/index.js",
-  "bin": "dist/cli.js",
+  "main": "./dist/index.js",
+  "bin": {
+    "dog": "./dist/bin.js"
+  },
   "scripts": {
     "develop": "tsc -w",
     "test": "echo \"Error: run tests from root\" && exit 1"

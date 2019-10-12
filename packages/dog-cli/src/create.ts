@@ -8,9 +8,6 @@ import * as emoji from "node-emoji";
 
 const onMissing = () => "";
 
-console.log(
-	emoji.emojify(`:dog: Bark! DOG is here to help you to spawn your own brand new Continuous Organisation`, onMissing));
-
 const knowsCO = [
 	{
 		type: "confirm",
@@ -171,6 +168,8 @@ const dogQuestions = (networkConstants, deployerWallet) => {
 };
 
 const run = async () => {
+	console.log(
+		emoji.emojify(`:dog: Bark! DOG is here to help you to spawn your own brand new Continuous Organisation`, onMissing));
 	const knows = (await inquirer.prompt(knowsCO)).knows;
 	if (!knows) {
 		console.log(emoji.emojify(
