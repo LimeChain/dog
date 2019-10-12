@@ -21,6 +21,7 @@ const deploy = async (network, secret, etherscanApiKey) => {
 	// Deploy Organization
 	const dog = await deployer.deploy(BasicDogOrganisation, {},
 		bondingMathContractDeployed.contractAddress,
+		20,
 		1,
 		dogUSD.contractAddress,
 		deployer.signer.address,

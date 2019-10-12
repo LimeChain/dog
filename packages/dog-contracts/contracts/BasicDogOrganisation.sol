@@ -23,7 +23,7 @@ contract BasicDogOrganisation is Ownable {
     
     uint256 public premintedDOG = 0;
     
-    uint256 constant public USD_RESERVE_REMAINDER = 5; // 20%
+    uint256 public USD_RESERVE_REMAINDER = 20; // 20%
     
     uint256 public buySlope;
     
@@ -61,22 +61,26 @@ contract BasicDogOrganisation is Ownable {
     * @dev Contract Constructor
     *
     * @param _bondingMath Address of contract calculating bonding mathematics based on sqrt
+    * @param _reserveRatioPercent The reserve ratio for this DOG
+    * @param _buySlope The buy slope constant for the bonding formula
     * @param _dogUSD Address of USD Token
     * @param _dogBank Address of dog Bank
     * @param _name of the dog token
     * @param _symbol of the dog token
     * @param _decimals of the dog token
     */
-    constructor(address _bondingMath, uint256 _buySlope, address _dogUSD, address _dogBank, string memory _name, string memory _symbol, uint8 _decimals) public {
+    constructor(address _bondingMath, uint256 _reserveRatioPercent, uint256 _buySlope, address _dogUSD, address _dogBank, string memory _name, string memory _symbol, uint8 _decimals) public {
         
         require(_dogUSD != address(0), "constructor:: dog USD address is required");
         require(_dogBank != address(0), "constructor:: dog Bank address is required");
         require(_bondingMath != address(0), "constructor:: Bonding Math address is required");
         require(_buySlope > 0, "The buy slope must be greater than zero");
+        require(_reserveRatioPercent > 0 && _reserveRatioPercent < 100, "The reserve ratio needs to be between 1 and 100");
 
         buySlope = _buySlope;
         dogToken = new DogToken(_name, _symbol, _decimals);
         dogUSD = IERC20(_dogUSD);
+        USD_RESERVE_REMAINDER = _reserveRatioPercent;
 
         dogBank = _dogBank;
         dogOrgAdmin = msg.sender;
@@ -102,7 +106,7 @@ contract BasicDogOrganisation is Ownable {
         
         uint256 dogTokensToMint = calcDogForUSD(usdAmount);
 
-        uint256 reserveUSDAmount = usdAmount.div(USD_RESERVE_REMAINDER);
+        uint256 reserveUSDAmount = usdAmount.mul(USD_RESERVE_REMAINDER).div(100);
         dogUSD.transferFrom(msg.sender, address(this), reserveUSDAmount);
         dogUSD.transferFrom(msg.sender, dogBank, usdAmount.sub(reserveUSDAmount));
 
@@ -184,8 +188,9 @@ contract BasicDogOrganisation is Ownable {
         require(dogUSD.balanceOf(address(this)) == 0, "unlockOrganisation:: Organization is already unlocked");
         require(dogUSD.allowance(msg.sender, address(this)) >= organiserUSDContribution, "unlockOrganisation:: Unlocker tries to unlock with unapproved amount");
 
-        dogUSD.transferFrom(msg.sender, address(this), organiserUSDContribution.div(USD_RESERVE_REMAINDER));
-        dogUSD.transferFrom(msg.sender, dogBank, organiserUSDContribution.sub(organiserUSDContribution.div(USD_RESERVE_REMAINDER)));
+        uint256 reserveUSDAmount = organiserUSDContribution.mul(USD_RESERVE_REMAINDER).div(100);
+        dogUSD.transferFrom(msg.sender, address(this), reserveUSDAmount);
+        dogUSD.transferFrom(msg.sender, dogBank, organiserUSDContribution.sub(reserveUSDAmount));
 
         premintedDOG = organiserDOGReward;
         
