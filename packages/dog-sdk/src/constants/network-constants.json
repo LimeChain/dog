@@ -1,5 +1,6 @@
 {
 	"mainnet": {
+		"networkId": 1,
 		"investmentTokens": [
 			{
 				"name": "DAI",
@@ -7,7 +8,7 @@
 			},
 			{
 				"name": "USDC",
-				"value": "0x18C05f1c241B57F07104ab00495a3Bbb69C38ece"
+				"value": "0x6022B13F89168A1A35BFF884BfB19c07f5F07DF0"
 			},
 			{
 				"name": "WETH",
@@ -16,6 +17,7 @@
 		]
 	},
 	"ropsten": {
+		"networkId": 3,
 		"investmentTokens": [
 			{
 				"name": "DAI",
@@ -23,7 +25,7 @@
 			},
 			{
 				"name": "USDC",
-				"value": "0x18C05f1c241B57F07104ab00495a3Bbb69C38ece"
+				"value": "0x6022B13F89168A1A35BFF884BfB19c07f5F07DF0"
 			},
 			{
 				"name": "WETH",
@@ -32,6 +34,7 @@
 		]
 	},
 	"rinkeby": {
+		"networkId": 4,
 		"investmentTokens": [
 			{
 				"name": "DAI",
@@ -39,7 +42,7 @@
 			},
 			{
 				"name": "USDC",
-				"value": "0x18C05f1c241B57F07104ab00495a3Bbb69C38ece"
+				"value": "0x6022B13F89168A1A35BFF884BfB19c07f5F07DF0"
 			},
 			{
 				"name": "WETH",
@@ -48,6 +51,7 @@
 		]
 	},
 	"goerli": {
+		"networkId": 5,
 		"investmentTokens": [
 			{
 				"name": "DAI",
@@ -55,7 +59,7 @@
 			},
 			{
 				"name": "USDC",
-				"value": "0x18C05f1c241B57F07104ab00495a3Bbb69C38ece"
+				"value": "0x6022B13F89168A1A35BFF884BfB19c07f5F07DF0"
 			},
 			{
 				"name": "WETH",

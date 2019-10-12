@@ -11,6 +11,10 @@ class NetworkConstants {
 		return Object.keys(constants);
 	}
 
+	public static getNetworkId(network: string): number {
+		return constants[network].networkId;
+	}
+
 	public static getInvestmentTokens(network: string): InvestmentToken[] {
 		return constants[network].investmentTokens;
 	}

@@ -9,6 +9,7 @@ class DOGBuilder {
 	public tokenSymbol: string;
 
 	public buySlope = 1;
+	public buybackReservePercent = 20;
 	public investmentTokenAddress: string; // TODO add DAI address
 	public bankAddress: string; // TODO add DAI address
 	public contractInterface = basicDogArtifacts.abi;
@@ -19,6 +20,11 @@ class DOGBuilder {
 	constructor(tokenName: string, tokenSymbol: string) {
 		this.tokenName = tokenName;
 		this.tokenSymbol = tokenSymbol;
+	}
+
+	public withReservePercent(buybackReservePercent: number): DOGBuilder {
+		this.buybackReservePercent = buybackReservePercent;
+		return this;
 	}
 
 	public withBuySlopeOf(buySlope: number): DOGBuilder {
@@ -41,11 +47,12 @@ class DOGBuilder {
 		return this;
 	}
 
-	public async deploy(wallet: ethers.Wallet): Promise<any> {
+	public async deploy(signer: ethers.Signer): Promise<any> {
 		this.validateInput();
-		const dogFactory = new ethers.ContractFactory(this.contractInterface, this.contractBytecode, wallet);
+		const dogFactory = new ethers.ContractFactory(this.contractInterface, this.contractBytecode, signer);
 		const contract = await dogFactory.deploy(
 			this.bondingMathAddress,
+			this.buybackReservePercent,
 			this.buySlope,
 			this.investmentTokenAddress,
 			this.bankAddress,
@@ -57,7 +64,7 @@ class DOGBuilder {
 			transactionHash: contract.deployTransaction.hash,
 			async wait() {
 				await contract.deployed();
-				return new DOG(contract.address, wallet);
+				return new DOG(contract.address, signer);
 			},
 		};
 
@@ -78,6 +85,14 @@ class DOGBuilder {
 
 		if (this.bankAddress == null) {
 			throw new Error("Bank address is not defined");
+		}
+
+		if (this.buySlope < 1) {
+			throw new Error("Buy slope incorrect");
+		}
+
+		if (this.buybackReservePercent < 1 || this.buybackReservePercent > 99) {
+			throw new Error("Buy Back Reserve percent incorrect");
 		}
 	}
 }
