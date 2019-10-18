@@ -1,6 +1,6 @@
 {
-  "name": "etherlime-project",
-  "version": "1.0.0",
+  "name": "dog-contracts",
+  "version": "0.0.1",
   "description": "This is the default package.json generated for your project",
   "main": "index.js",
   "scripts": {

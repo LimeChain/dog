@@ -1,6 +1,6 @@
 <template>
   <div id="generator">
-    <div class="col-6 page-container">
+    <div class="col-12 col-md-10 col-lg-8 col-xl-6 page-container">
       <div class="form-container col-10 offset-1 text-left">
         <form-wizard
           ref="generator"
@@ -42,11 +42,11 @@
               </select>
             </div>
             <div class="form-group">
-              <label for="bankAddress">3. What address that will be holding the investment fund?</label>
+              <label for="bankAddress">3. What address will be holding the investment fund?</label>
               <small
                 id="bankAddressHelp"
                 class="form-text text-muted"
-              >TLDR - Where the investments go. The investment fund is the life blood of the DOG. These are the funds you use for investments that will bring you back dividends.</small>
+              >TLDR - Where the invested funds go. The investment fund is the life blood of the DOG. These are the funds you use for investments that will bring you back dividends.</small>
               <input
                 type="text"
                 class="form-control"
@@ -151,7 +151,7 @@ export default Vue.extend({
         dappId: "1aa2c0e3-348c-49fb-bc61-6ce96e5bf21a",
         networkId: NetworkConstants.getNetworkId(this.network),
         ethers: ethers,
-        minimumBalance: "100000000000000000",
+        minimumBalance: "10000000000000000",
         recommendedWallets: {
           desktop: [
             {
@@ -219,6 +219,9 @@ export default Vue.extend({
       let builder = new DOGBuilder(this.tokenName, this.tokenSymbol)
         .withReservePercent(this.reserveRatio)
         .withBank(this.bankAddress)
+        .withBondingMathAddress(
+          NetworkConstants.getBondingMathContract(this.network)
+        )
         .withInvestmentTokenAddress(this.investmentToken);
       const deploymentInfo = await builder.deploy(this.signer);
 

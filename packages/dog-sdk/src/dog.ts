@@ -1,7 +1,8 @@
 
 import { ethers } from "ethers";
 
-import dogOrganisationArtifacts from "./interfaces/IDogOrganisation.json";
+import dogOrganisationArtifacts from "./interfaces/BasicDogOrganisation.json";
+import IERC20Artifacts from "./interfaces/IERC20.json";
 
 class DOG {
 	[x: string]: any;
@@ -28,6 +29,16 @@ class DOG {
 				console.warn(`WARNING: Multiple definitions for ${name}`);
 			}
 		});
+	}
+
+	public async getDogToken(): Promise<ethers.Contract> {
+		const tokenAddress = await this.contract.dogToken();
+		return new ethers.Contract(tokenAddress, IERC20Artifacts.abi, this.providerOrSigner);
+	}
+
+	public async getInvestmentToken(): Promise<ethers.Contract> {
+		const tokenAddress = await this.contract.dogUSD();
+		return new ethers.Contract(tokenAddress, IERC20Artifacts.abi, this.providerOrSigner);
 	}
 
 	public get address(): string {

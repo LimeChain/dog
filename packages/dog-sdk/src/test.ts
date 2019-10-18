@@ -1,26 +1,64 @@
 import { ethers } from "ethers";
 import DOG from "./dog";
 import DOGBuilder from "./dog/builder";
+import NetworkConstants from "./constants/network-constants";
 
 const run = async () => {
 
-	const builder =
-		new DOGBuilder("DOG Token", "DOG")
-			.withBuySlopeOf(10)
-			.withBank("0xd4Fa489Eacc52BA59438993f37Be9fcC20090E39")
-			.withInvestmentTokenAddress("0x18C05f1c241B57F07104ab00495a3Bbb69C38ece")
-			.withBondingMathAddress("0x52D8F59cf335f3255C9E89f142bb853A533c8dc6");
-
-	const provider = new ethers.providers.InfuraProvider("rinkeby", "40c2813049e44ec79cb4d7e0d18de173");
+	const provider = new ethers.providers.InfuraProvider("ropsten", "40c2813049e44ec79cb4d7e0d18de173");
 	const deployerWallet = new ethers.Wallet(
 		"0x2030B463177DB2DA82908EF90FA55DDFCEF56E8183CAF60DB464BC398E736E6F",
 		provider);
+	// const builder =
+	// 	new DOGBuilder("DOG Token", "DOG")
+	// 		.withBuySlopeOf(10)
+	// 		.withBank("0xd4Fa489Eacc52BA59438993f37Be9fcC20090E39")
+	// 		.withBondingMathAddress(NetworkConstants.getBondingMathContract("ropsten"))
+	// 		.withInvestmentTokenAddress(NetworkConstants.getInvestmentTokens("ropsten")[0].value);
+
 	// const deployedDog = await builder.deploy(deployerWallet);
 
-	const dogInst = DOG.at("0xc13bebddd97814465aAB55Db5D91932a85c8b650", deployerWallet);
-	const price = await dogInst.calcDogForUSD("10000000000");
+	// console.log(deployedDog);
 
-	console.log(price.toString(10));
+	// const dogInst = await deployedDog.wait();
+
+	const dogInst = DOG.at("0xF58359125FCBaBDA45958150Af4670210400896C", deployerWallet);
+
+	const dogTokenInstance = await dogInst.getDogToken();
+	console.log(dogTokenInstance.address);
+	const usdTokenInstance = await dogInst.getInvestmentToken();
+	console.log(usdTokenInstance.address);
+
+	// const balance1 = await usdTokenInstance.balanceOf(dogInst.address);
+	// console.log(balance1.toString(10));
+
+	// const price = await dogInst.calcDogForUSD("100000000000000000000000");
+
+	// console.log(price.toString(10));
+
+	const approveTx = await usdTokenInstance.approve(dogInst.address, "100000000000000000000000");
+	console.log(approveTx);
+	await approveTx.wait();
+
+	const unlockTx = await dogInst.unlockOrganisation("100000000000000000000000", "100000000000000000000000");
+	console.log(unlockTx);
+	await unlockTx.wait();
+
+	// const investTx = await dogInst.invest("100000000000000000000000");
+	// console.log(investTx);
+	// await investTx.wait();
+
+	// const approveTx2 = await dogTokenInstance.approve(dogInst.address, "100000000000000000000000");
+	// console.log(approveTx2);
+	// await approveTx2.wait();
+
+	// const sellTx = await dogInst.sell("100000000000000000000000");
+	// console.log(sellTx);
+	// await sellTx.wait();
+
+	const balance = await dogTokenInstance.balanceOf(deployerWallet.address);
+	console.log(balance.toString(10));
+
 
 };
 

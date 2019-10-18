@@ -1,0 +1,63 @@
+service: default
+runtime: python27
+threadsafe: true
+api_version: 1
+
+handlers:
+  - url: /(.+\.js)
+    static_files: dist/\1
+    upload: dist/(.+\.js)
+
+  - url: /(.+\.css)
+    static_files: dist/\1
+    upload: dist/(.+\.css)
+
+  - url: /(.+\.png)
+    static_files: dist/\1
+    upload: dist/(.+\.png)
+
+  - url: /(.+\.jpg)
+    static_files: dist/\1
+    upload: dist/(.+\.jpg)
+
+  - url: /(.+\.svg)
+    static_files: dist/\1
+    upload: dist/(.+\.svg)
+
+  - url: /(.+\.eot)
+    static_files: dist/\1
+    upload: dist/(.+\.eot)
+
+  - url: /(.+\.woff)
+    static_files: dist/\1
+    upload: dist/(.+\.woff)
+
+  - url: /(.+\.ttf)
+    static_files: dist/\1
+    upload: dist/(.+\.ttf)
+
+  - url: /(.+\.m4v)
+    static_files: dist/\1
+    upload: dist/(.+\.m4v)
+
+  - url: /favicon.ico
+    static_files: dist/favicon.ico
+    upload: dist/favicon.ico
+
+  - url: /(.+\.json)
+    static_files: dist/\1
+    upload: dist/(.+\.json)
+
+  - url: /static/(.+)
+    static_files: dist/img/\1
+    upload: dist/img/(.+)
+
+  - url: /(.+)
+    secure: always
+    static_files: dist/index.html
+    upload: dist/index.html
+
+  - url: /
+    secure: always
+    static_files: dist/index.html
+    upload: dist/index.html

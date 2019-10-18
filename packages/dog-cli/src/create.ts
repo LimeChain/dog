@@ -212,6 +212,8 @@ In addition any investor can sell back their tokens for portion of the current o
 	if (config.overrideMathContract) {
 		builder = builder
 			.withBondingMathAddress(config.bondingMathAddress);
+	} else {
+		builder = builder.withBondingMathAddress(NetworkConstants.getBondingMathContract(networkAnswers.network));
 	}
 	console.log(emoji.emojify(`:dog: :dog2: Starting the deployment process... :`));
 

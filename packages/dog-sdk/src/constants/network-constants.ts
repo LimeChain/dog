@@ -18,6 +18,10 @@ class NetworkConstants {
 	public static getInvestmentTokens(network: string): InvestmentToken[] {
 		return constants[network].investmentTokens;
 	}
+
+	public static getBondingMathContract(network: string): string {
+		return constants[network].bondingCurveContractAddress;
+	}
 }
 
 export default NetworkConstants;

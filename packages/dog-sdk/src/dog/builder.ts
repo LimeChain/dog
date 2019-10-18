@@ -15,7 +15,7 @@ class DOGBuilder {
 	public contractInterface = basicDogArtifacts.abi;
 	public contractBytecode = basicDogArtifacts.bytecode;
 
-	protected bondingMathAddress = "0xD3961a4a674489a4e11501Fb2e728a3C04fF9682";
+	protected bondingMathAddress;
 
 	constructor(tokenName: string, tokenSymbol: string) {
 		this.tokenName = tokenName;
@@ -93,6 +93,10 @@ class DOGBuilder {
 
 		if (this.buybackReservePercent < 1 || this.buybackReservePercent > 99) {
 			throw new Error("Buy Back Reserve percent incorrect");
+		}
+
+		if (this.bondingMathAddress == null) {
+			throw new Error("Bonding Math Address not set");
 		}
 	}
 }

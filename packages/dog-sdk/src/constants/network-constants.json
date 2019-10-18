@@ -1,69 +1,21 @@
 {
-	"mainnet": {
-		"networkId": 1,
-		"investmentTokens": [
-			{
-				"name": "DAI",
-				"value": "0x18C05f1c241B57F07104ab00495a3Bbb69C38ece"
-			},
-			{
-				"name": "USDC",
-				"value": "0x6022B13F89168A1A35BFF884BfB19c07f5F07DF0"
-			},
-			{
-				"name": "WETH",
-				"value": "0x18C05f1c241B57F07104ab00495a3Bbb69C38ece"
-			}
-		]
-	},
 	"ropsten": {
 		"networkId": 3,
+		"bondingCurveContractAddress": "0xded1722394297E41c50c4B5cb0105d67bB1747e8",
 		"investmentTokens": [
 			{
-				"name": "DAI",
-				"value": "0x18C05f1c241B57F07104ab00495a3Bbb69C38ece"
-			},
-			{
-				"name": "USDC",
-				"value": "0x6022B13F89168A1A35BFF884BfB19c07f5F07DF0"
-			},
-			{
-				"name": "WETH",
-				"value": "0x18C05f1c241B57F07104ab00495a3Bbb69C38ece"
-			}
-		]
-	},
-	"rinkeby": {
-		"networkId": 4,
-		"investmentTokens": [
-			{
-				"name": "DAI",
-				"value": "0x18C05f1c241B57F07104ab00495a3Bbb69C38ece"
-			},
-			{
-				"name": "USDC",
-				"value": "0x6022B13F89168A1A35BFF884BfB19c07f5F07DF0"
-			},
-			{
-				"name": "WETH",
-				"value": "0x18C05f1c241B57F07104ab00495a3Bbb69C38ece"
+				"name": "USDT",
+				"value": "0x589bdf5eff359d0473ba8889808bb63bd9b2d17b"
 			}
 		]
 	},
 	"goerli": {
 		"networkId": 5,
+		"bondingCurveContractAddress": "0xA5E1de55620abb28965d3da92Be02b757dAA524C",
 		"investmentTokens": [
 			{
-				"name": "DAI",
-				"value": "0x18C05f1c241B57F07104ab00495a3Bbb69C38ece"
-			},
-			{
-				"name": "USDC",
-				"value": "0x6022B13F89168A1A35BFF884BfB19c07f5F07DF0"
-			},
-			{
-				"name": "WETH",
-				"value": "0x18C05f1c241B57F07104ab00495a3Bbb69C38ece"
+				"name": "USDT",
+				"value": "0xde640dd1ba6fd11591736b595bc644c8ead5c6b2"
 			}
 		]
 	}
