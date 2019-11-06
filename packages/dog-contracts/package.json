@@ -11,6 +11,9 @@
   "dependencies": {
     "@openzeppelin/contracts": "^2.3.0",
     "dog-sdk": "file:../dog-sdk",
-    "etherlime-lib": "^1.1.5"
+    "etherlime-lib": "^1.1.5",
+    "ethlint": "^1.2.5",
+    "global": "^4.4.0",
+    "solhint": "^2.3.0"
   }
 }

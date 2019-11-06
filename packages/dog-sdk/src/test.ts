@@ -5,56 +5,76 @@ import NetworkConstants from "./constants/network-constants";
 
 const run = async () => {
 
-	const provider = new ethers.providers.InfuraProvider("ropsten", "40c2813049e44ec79cb4d7e0d18de173");
+	const network = "goerli";
+
+	const provider = new ethers.providers.InfuraProvider(network, "40c2813049e44ec79cb4d7e0d18de173");
 	const deployerWallet = new ethers.Wallet(
 		"0x2030B463177DB2DA82908EF90FA55DDFCEF56E8183CAF60DB464BC398E736E6F",
 		provider);
-	// const builder =
-	// 	new DOGBuilder("DOG Token", "DOG")
-	// 		.withBuySlopeOf(10)
-	// 		.withBank("0xd4Fa489Eacc52BA59438993f37Be9fcC20090E39")
-	// 		.withBondingMathAddress(NetworkConstants.getBondingMathContract("ropsten"))
-	// 		.withInvestmentTokenAddress(NetworkConstants.getInvestmentTokens("ropsten")[0].value);
+	const builder =
+		new DOGBuilder("DOG Token", "DOG")
+			.withBuySlopeOf(10)
+			.withBank("0xd4Fa489Eacc52BA59438993f37Be9fcC20090E39")
+			.withInvestmentTokenAddress(NetworkConstants.getInvestmentTokens(network)[0].value);
 
-	// const deployedDog = await builder.deploy(deployerWallet);
+	const deployedDog = await builder.deploy(deployerWallet, network);
 
-	// console.log(deployedDog);
+	console.log(deployedDog);
 
-	// const dogInst = await deployedDog.wait();
+	const dogInst = await deployedDog.wait();
 
-	const dogInst = DOG.at("0xF58359125FCBaBDA45958150Af4670210400896C", deployerWallet);
+	// const dogInst = DOG.at("0x14d65cc6831cda49486850480c8ade31994a4504", deployerWallet);
 
 	const dogTokenInstance = await dogInst.getDogToken();
 	console.log(dogTokenInstance.address);
 	const usdTokenInstance = await dogInst.getInvestmentToken();
 	console.log(usdTokenInstance.address);
 
-	// const balance1 = await usdTokenInstance.balanceOf(dogInst.address);
-	// console.log(balance1.toString(10));
+	const balance1 = await usdTokenInstance.balanceOf(dogInst.address);
+	console.log(balance1.toString(10));
+
+	const balance2 = await usdTokenInstance.balanceOf(deployerWallet.address);
+	console.log(balance2.toString(10));
 
 	// const price = await dogInst.calcDogForUSD("100000000000000000000000");
 
 	// console.log(price.toString(10));
 
-	const approveTx = await usdTokenInstance.approve(dogInst.address, "100000000000000000000000");
+	console.log("approving");
+
+	const approveTx = await usdTokenInstance.approve(dogInst.address, "2000000000000000000000");
 	console.log(approveTx);
 	await approveTx.wait();
 
-	const unlockTx = await dogInst.unlockOrganisation("100000000000000000000000", "100000000000000000000000");
+
+
+	console.log("unlocking");
+
+	const unlockTx = await dogInst.unlockOrganisation("1000000000000000000000", "1000000000000000000000");
 	console.log(unlockTx);
 	await unlockTx.wait();
 
-	// const investTx = await dogInst.invest("100000000000000000000000");
-	// console.log(investTx);
-	// await investTx.wait();
+	console.log("allowance check");
+	const balance3 = await usdTokenInstance.allowance(deployerWallet.address, dogInst.address);
+	console.log(balance3.toString(10));
 
-	// const approveTx2 = await dogTokenInstance.approve(dogInst.address, "100000000000000000000000");
-	// console.log(approveTx2);
-	// await approveTx2.wait();
 
-	// const sellTx = await dogInst.sell("100000000000000000000000");
-	// console.log(sellTx);
-	// await sellTx.wait();
+	console.log("investing");
+	const investTx = await dogInst.invest("1000000000000000000000");
+	console.log(investTx);
+	await investTx.wait();
+
+	console.log("approving dog");
+
+	const approveTx2 = await dogTokenInstance.approve(dogInst.address, "1000000000000000000000");
+	console.log(approveTx2);
+	await approveTx2.wait();
+
+	console.log("selling");
+
+	const sellTx = await dogInst.sell("1000000000000000000000");
+	console.log(sellTx);
+	await sellTx.wait();
 
 	const balance = await dogTokenInstance.balanceOf(deployerWallet.address);
 	console.log(balance.toString(10));

@@ -1,7 +1,7 @@
 {
 	"ropsten": {
 		"networkId": 3,
-		"bondingCurveContractAddress": "0xded1722394297E41c50c4B5cb0105d67bB1747e8",
+		"organisationRegistry": "0x949157F10AD4e252585E85D5D94bC1f8ce546654",
 		"investmentTokens": [
 			{
 				"name": "USDT",
@@ -11,7 +11,7 @@
 	},
 	"goerli": {
 		"networkId": 5,
-		"bondingCurveContractAddress": "0xA5E1de55620abb28965d3da92Be02b757dAA524C",
+		"organisationRegistry": "0x30488c1CF24e3eB174004d43c3B050be7A0C6F86",
 		"investmentTokens": [
 			{
 				"name": "USDT",

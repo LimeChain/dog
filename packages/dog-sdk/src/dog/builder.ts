@@ -1,7 +1,8 @@
-import { ethers } from "ethers";
+import { ethers, Event as EthersEvent } from "ethers";
 import DOG from "../dog";
 
-import basicDogArtifacts from "../interfaces/BasicDogOrganisation.json";
+import NetworkConstants from "../constants/network-constants.json";
+import dogRegistryArtifact from "../interfaces/BasicDogRegistry.json";
 
 class DOGBuilder {
 
@@ -10,10 +11,9 @@ class DOGBuilder {
 
 	public buySlope = 1;
 	public buybackReservePercent = 20;
-	public investmentTokenAddress: string; // TODO add DAI address
-	public bankAddress: string; // TODO add DAI address
-	public contractInterface = basicDogArtifacts.abi;
-	public contractBytecode = basicDogArtifacts.bytecode;
+	public investmentTokenAddress: string;
+	public bankAddress: string;
+	public registryInterface = dogRegistryArtifact.abi;
 
 	protected bondingMathAddress;
 
@@ -42,16 +42,15 @@ class DOGBuilder {
 		return this;
 	}
 
-	public withBondingMathAddress(address: string): DOGBuilder {
-		this.bondingMathAddress = ethers.utils.getAddress(address);
-		return this;
-	}
-
-	public async deploy(signer: ethers.Signer): Promise<any> {
+	public async deploy(signer: ethers.Signer, network: string): Promise<any> {
+		const networkConstants = NetworkConstants[network];
+		if (networkConstants === undefined) {
+			throw new Error("Unknown or unsupported network!");
+		}
 		this.validateInput();
-		const dogFactory = new ethers.ContractFactory(this.contractInterface, this.contractBytecode, signer);
-		const contract = await dogFactory.deploy(
-			this.bondingMathAddress,
+		const registryAddress = networkConstants.organisationRegistry;
+		const dogRegistry = new ethers.Contract(registryAddress, this.registryInterface, signer);
+		const createTx = await dogRegistry.createNewOrganisation(
 			this.buybackReservePercent,
 			this.buySlope,
 			this.investmentTokenAddress,
@@ -60,11 +59,12 @@ class DOGBuilder {
 			this.tokenSymbol, 18);
 
 		return {
-			contractAddress: contract.address,
-			transactionHash: contract.deployTransaction.hash,
+			transactionHash: createTx.hash,
 			async wait() {
-				await contract.deployed();
-				return new DOG(contract.address, signer);
+				const deployedTransaction = await createTx.wait();
+				const deployEvent = deployedTransaction.events.filter((event: any) => event.event === "OrganisationCreated");
+				const deployEventArgs = deployEvent[0].args;
+				return new DOG(deployEventArgs.organisationAddress, signer);
 			},
 		};
 
@@ -93,10 +93,6 @@ class DOGBuilder {
 
 		if (this.buybackReservePercent < 1 || this.buybackReservePercent > 99) {
 			throw new Error("Buy Back Reserve percent incorrect");
-		}
-
-		if (this.bondingMathAddress == null) {
-			throw new Error("Bonding Math Address not set");
 		}
 	}
 }

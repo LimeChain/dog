@@ -1,5 +1,5 @@
 import chalk from "chalk";
-import { DOGBuilder, NetworkConstants } from "dog-sdk";
+import { DOGBuilder, NetworkConstants, DOG } from "dog-sdk";
 import { ethers } from "ethers";
 
 import * as inquirer from "inquirer";
@@ -23,7 +23,7 @@ const networkQuestions = () => {
 		type: "list",
 		name: "network",
 		message: "What network would you like to use?",
-		default: "rinkeby",
+		default: "ropsten",
 		choices: [
 			...networks
 		]
@@ -149,29 +149,6 @@ const dogQuestions = (networkConstants, deployerWallet) => {
 					value: 100
 				}
 			]
-		},
-		{
-			type: "confirm",
-			name: "overrideMathContract",
-			message: "Do you want to override the bonding mathematics contract? (Advanced feature)",
-			default: false
-		},
-		{
-			type: "input",
-			name: "bondingMathAddress",
-			message: "What is the address of the bonding mathematics contract you want to use?",
-			when(answers) {
-				return answers.overrideMathContract;
-			},
-			validate(value) {
-				try {
-					ethers.utils.getAddress(value);
-				} catch (e) {
-					return emoji.emojify(
-						`:dog: This does not look like a valid address to me. Can you check it again?`, onMissing);
-				}
-				return true;
-			},
 		}
 	];
 };
@@ -203,25 +180,20 @@ In addition any investor can sell back their tokens for portion of the current o
 	const config = await inquirer.prompt(
 		dogQuestions(NetworkConstants.getInvestmentTokens(networkAnswers.network), deployerWallet));
 
-	let builder =
+	const builder =
 		new DOGBuilder(config.tokenName, config.tokenSymbol)
 			.withBank(config.bankAddress)
 			.withInvestmentTokenAddress(config.investmentTokenAddress)
 			.withBuySlopeOf(config.buySlope);
 
-	if (config.overrideMathContract) {
-		builder = builder
-			.withBondingMathAddress(config.bondingMathAddress);
-	} else {
-		builder = builder.withBondingMathAddress(NetworkConstants.getBondingMathContract(networkAnswers.network));
-	}
 	console.log(emoji.emojify(`:dog: :dog2: Starting the deployment process... :`));
 
-	const deploymentInfo = await builder.deploy(deployerWallet);
+	const deploymentInfo = await builder.deploy(deployerWallet, networkAnswers.network);
 
 	console.log(
 		emoji.emojify(
-			`:dog: :newspaper: The contract will have the address of ${chalk.cyan(deploymentInfo.contractAddress)}`));
+			`:dog: :newspaper: The contract will soon be deployed`));
+
 	const txHashLink =
 		`https://${networkAnswers.network === "mainnet" ? "" : networkAnswers.network}.etherscan.io/tx/${deploymentInfo.transactionHash}`;
 
@@ -229,10 +201,10 @@ In addition any investor can sell back their tokens for portion of the current o
 
 	console.log(emoji.emojify(`:dog: :hourglass_flowing_sand: Now we pace around a bit...`));
 
-	await deploymentInfo.wait();
+	const dogInstance: DOG = await deploymentInfo.wait();
 
 	console.log(
-		emoji.emojify(`:dog: :confetti_ball: Your DOG was deployed successfully! :woman-with-bunny-ears-partying:`));
+		emoji.emojify(`:dog: :confetti_ball: Your DOG was deployed successfully at ${chalk.cyan(dogInstance.address)}! :woman-with-bunny-ears-partying:`));
 
 };
 

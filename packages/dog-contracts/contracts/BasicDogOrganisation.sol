@@ -69,7 +69,7 @@ contract BasicDogOrganisation is Ownable {
     * @param _symbol of the dog token
     * @param _decimals of the dog token
     */
-    constructor(address _bondingMath, uint256 _reserveRatioPercent, uint256 _buySlope, address _dogUSD, address _dogBank, string memory _name, string memory _symbol, uint8 _decimals) public {
+    constructor(address owner, address _bondingMath, uint256 _reserveRatioPercent, uint256 _buySlope, address _dogUSD, address _dogBank, string memory _name, string memory _symbol, uint8 _decimals) public {
         
         require(_dogUSD != address(0), "constructor:: dog USD address is required");
         require(_dogBank != address(0), "constructor:: dog Bank address is required");
@@ -85,6 +85,7 @@ contract BasicDogOrganisation is Ownable {
         dogBank = _dogBank;
         dogOrgAdmin = msg.sender;
         bondingMath = BondingMathematics(_bondingMath);
+        transferOwnership(owner);
     }
     
     /*
