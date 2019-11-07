@@ -219,11 +219,8 @@ export default Vue.extend({
       let builder = new DOGBuilder(this.tokenName, this.tokenSymbol)
         .withReservePercent(this.reserveRatio)
         .withBank(this.bankAddress)
-        .withBondingMathAddress(
-          NetworkConstants.getBondingMathContract(this.network)
-        )
         .withInvestmentTokenAddress(this.investmentToken);
-      const deploymentInfo = await builder.deploy(this.signer);
+      const deploymentInfo = await builder.deploy(this.signer, this.network);
 
       console.log(deploymentInfo);
 

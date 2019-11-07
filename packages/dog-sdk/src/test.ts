@@ -9,7 +9,7 @@ const run = async () => {
 
 	const provider = new ethers.providers.InfuraProvider(network, "40c2813049e44ec79cb4d7e0d18de173");
 	const deployerWallet = new ethers.Wallet(
-		"0x2030B463177DB2DA82908EF90FA55DDFCEF56E8183CAF60DB464BC398E736E6F",
+		"0x09D63A68DAFA08DFFEE686E044F8DC4FE4FC368011D757EDF68DE4FE8AF89F82",
 		provider);
 	const builder =
 		new DOGBuilder("DOG Token", "DOG")

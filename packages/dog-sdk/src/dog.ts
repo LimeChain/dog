@@ -2,12 +2,12 @@
 import { ethers } from "ethers";
 
 import dogOrganisationArtifacts from "./interfaces/BasicDogOrganisation.json";
-import IERC20Artifacts from "./interfaces/IERC20.json";
+import ERC20Artifacts from "./interfaces/ERC20Detailed.json";
 
 class DOG {
 	[x: string]: any;
 
-	public static at(address: string, wallet: ethers.Wallet): DOG {
+	public static at(address: string, wallet: ethers.Signer): DOG {
 		return new this(address, wallet);
 	}
 
@@ -33,12 +33,12 @@ class DOG {
 
 	public async getDogToken(): Promise<ethers.Contract> {
 		const tokenAddress = await this.contract.dogToken();
-		return new ethers.Contract(tokenAddress, IERC20Artifacts.abi, this.providerOrSigner);
+		return new ethers.Contract(tokenAddress, ERC20Artifacts.abi, this.providerOrSigner);
 	}
 
 	public async getInvestmentToken(): Promise<ethers.Contract> {
 		const tokenAddress = await this.contract.dogUSD();
-		return new ethers.Contract(tokenAddress, IERC20Artifacts.abi, this.providerOrSigner);
+		return new ethers.Contract(tokenAddress, ERC20Artifacts.abi, this.providerOrSigner);
 	}
 
 	public get address(): string {

@@ -19,8 +19,11 @@ class NetworkConstants {
 		return constants[network].investmentTokens;
 	}
 
-	public static getBondingMathContract(network: string): string {
-		return constants[network].bondingCurveContractAddress;
+	public static getRegistryContract(network: string): string {
+		if (constants[network] === undefined) {
+			throw new Error(`Unsupported network ${network}`);
+		}
+		return constants[network].organisationRegistry;
 	}
 }
 
