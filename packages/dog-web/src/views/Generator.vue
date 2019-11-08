@@ -258,11 +258,6 @@ export default Vue.extend({
   -o-border-radius: @radius;
   border-radius: @radius;
 }
-.box-shadow(...) {
-  -webkit-box-shadow: @arguments;
-  -moz-box-shadow: @arguments;
-  box-shadow: @arguments;
-}
 .form-container {
   background-color: white;
   .rounded-corners();

@@ -1,7 +1,7 @@
 <template>
   <div class="container-fluid">
     <div class="row">
-      <div class="col-4 col-md-3 col-lg-2" v-for="org in organsiations" v-bind:key="org.address">
+      <div class="col-4 col-lg-3" v-for="org in organsiations" v-bind:key="org.address">
         <dog-card :dog="org" />
       </div>
     </div>
