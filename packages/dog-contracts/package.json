@@ -9,7 +9,7 @@
   "author": "",
   "license": "ISC",
   "dependencies": {
-    "@openzeppelin/contracts": "^2.3.0",
+    "@openzeppelin/contracts": "^4.7.2",
     "dog-sdk": "file:../dog-sdk",
     "etherlime-lib": "^1.1.5",
     "ethlint": "^1.2.5",
